@@ -48,8 +48,6 @@ void diff(polyElement* elem1, polyElement* elem2)
 polyElement* mult(polyElement* elem1, polyElement* elem2)
 {
     polyElement* temp = create(0, 1);
-    print(elem1);
-    print(elem2);
     for (polyElement* elemFirst = elem1; elemFirst != NULL; elemFirst = elemFirst->next)
     {
         for (polyElement* elemSecond = elem2; elemSecond != NULL; elemSecond = elemSecond->next)
@@ -79,6 +77,11 @@ void degree(polyElement* elem, int degree)
     }
     else
         elem->degree *= degree;
+}
+
+void polydegree(polyElement* elem, polyElement* degree)
+{
+    elem->degree = degree->coeff;
 }
 
 int calc_degree(int value, int deg)

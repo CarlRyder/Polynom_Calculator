@@ -43,6 +43,12 @@ coeff:  coeff '^' deg {
         $$ = $1;
         }
         |
+        coeff '^' coeff {
+        //printf("From coeff ^ coeff (%d) to coeff with x\n");
+        polydegree((polyElement*)$1, (polyElement*)$3);
+        $$ = $1;
+        }
+        |
         deg {
         //printf("From coeff without x\n");
         $$ = create((int)$1, 0);
