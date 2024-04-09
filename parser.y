@@ -6,17 +6,6 @@ void yyerror(char* str) { fprintf(stderr, "%s\n", str); }
 
 %token DIGIT
 
-%union {
-int num;
-polyElement p;
-}
-
-%type<p> expr
-%type<p> poly
-%type<p> coeff
-%type<num> deg
-%type<num> number
-
 %%
 expr:   poly { 
         printf("\nExpression:\n");
@@ -80,10 +69,6 @@ deg:    number {
         $$ = $1;
         }
         |
-        '-' number {
-        $$ = $1 * (-1);
-        }
-        |
         number '^' deg {
         $$ = calc_degree((int)$1, (int)$3);
         }
@@ -91,6 +76,10 @@ deg:    number {
 
 number: DIGIT {
         $$ = $1;
+        }
+        |
+        '-' DIGIT {
+        $$ = $2 * (-1);
         }
         |
         number DIGIT {

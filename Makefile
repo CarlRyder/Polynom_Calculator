@@ -4,7 +4,7 @@ YACC = bison
 
 PARSER_FILE = parser.y
 FLEX_FILE = flex.l
-RESULT_FILES = lex.yy.c parser.tab.h parser.tab.c calc
+RESULT_FILES = lex.yy.c parser.tab.h parser.tab.c ./build/calc
 
 clean:
 	rm -f $(RESULT_FILES)
