@@ -2,6 +2,7 @@
 #include <math.h>
 #include <malloc.h>
 #include <stdint.h>
+
 #define YYSTYPE uint64_t
 
 typedef struct polyElement {

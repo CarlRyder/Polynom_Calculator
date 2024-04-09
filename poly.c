@@ -41,7 +41,10 @@ void summary(polyElement* elem1, polyElement* elem2)
 
 void diff(polyElement* elem1, polyElement* elem2)
 {
-    elem2->coeff *= -1;
+    for (polyElement* temp = elem2; temp != NULL; temp = temp->next)
+    {
+        temp->coeff *= -1;
+    }
     summary(elem1, elem2);
 }
 
@@ -91,31 +94,37 @@ int calc_degree(int value, int deg)
 
 void print(polyElement* poly)
 {
+    int counter = 0;
     for (polyElement* elem = poly; elem != NULL; elem = elem->next)
     {
         if (elem->coeff == 0)
             continue;
         if (elem->degree == 0)
-        {
-            if (elem->coeff >= 0)
+        {   
+            if (elem->coeff > 1 && counter != 0)
                 printf("+%d", elem->coeff);
             else
                 printf("%d", elem->coeff);
         }
         else if (elem->degree == 1)
         {
-            if (elem->coeff >= 0)
+            if (elem->coeff > 1 && counter != 0)
                 printf("+%dx", elem->coeff);
+            else if (elem->coeff == 1)
+                printf("x");
             else
                 printf("%dx", elem->coeff);
         }
         else
         {
-            if (elem->coeff >= 0)
+            if (elem->coeff > 1 && counter != 0)
                 printf("+%dx^%d", elem->coeff, elem->degree);
+            else if (elem->coeff == 1)
+                printf("x^%d", elem->degree);
             else
                 printf("%dx^%d", elem->coeff, elem->degree);
         }
+        counter++;
     }
     printf("\n");
 }
