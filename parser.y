@@ -29,13 +29,12 @@ poly:   coeff {
         }
         |
         poly '*' coeff { 
-        $$ = mult((polyElement*)$1, (polyElement*)$3);
+        $$ = (uint64_t)mult((polyElement*)$1, (polyElement*)$3);
         }
 ;
 
 coeff:  coeff '^' deg {
-        $$ = degree((polyElement*)$1, (int)$3);
-        print((polyElement*)$$);
+        $$ = (uint64_t)degree((polyElement*)$1, (int)$3);
         }
         |
         coeff '^' coeff {
@@ -44,21 +43,27 @@ coeff:  coeff '^' deg {
         }
         |
         deg {
-        $$ = create((int)$1, 0);
+        $$ = (uint64_t)create((int)$1, 0);
         }
         |
         deg 'x' {
-        $$ = create(1, 1);
-        mult_coeff((polyElement*)$$, (int)$1);
+        $$ = (uint64_t)create((int)$1, 1);
+        }
+        |
+        deg 'x' '^' deg {
+        $$ = (uint64_t)create((int)$1, (int)$4);
         }
         |
         deg '*' 'x' {
-        $$ = create(1, 1);
-        mult_coeff((polyElement*)$$, (int)$1);
+        $$ = (uint64_t)create((int)$1, 1);
         }
         |
         'x' {
-        $$ = create(1, 1);
+        $$ = (uint64_t)create(1, 1);
+        }
+        |
+        'x' '^' deg {
+        $$ = (uint64_t)create(1, (int)$3);
         }
         |
         '(' poly ')' {

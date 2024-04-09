@@ -21,4 +21,5 @@ void diff(polyElement* elem1, polyElement* elem2);
 void mult_coeff(polyElement* elem, int coeff);
 int calc_degree(int value, int deg);
 
+void polysort(polyElement* poly);
 void print(polyElement* poly);
