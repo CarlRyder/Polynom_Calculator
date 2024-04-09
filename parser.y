@@ -9,6 +9,7 @@ void yyerror(char* str) { fprintf(stderr, "%s\n", str); }
 %%
 expr:   poly { 
         printf("\nExpression:\n");
+        polysort((polyElement*)$$);
         print((polyElement*)$$);
         }
 ;
@@ -33,8 +34,8 @@ poly:   coeff {
 ;
 
 coeff:  coeff '^' deg {
-        degree((polyElement*)$1, (int)$3);
-        $$ = $1;
+        $$ = degree((polyElement*)$1, (int)$3);
+        print((polyElement*)$$);
         }
         |
         coeff '^' coeff {

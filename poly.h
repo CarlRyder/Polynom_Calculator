@@ -14,11 +14,11 @@ typedef struct polyElement {
 polyElement* create(int coeff, int degree);
 
 polyElement* mult(polyElement* elem1, polyElement* elem2);
+polyElement* polydegree(polyElement* elem, polyElement* degree);
+polyElement* degree(polyElement* elem, int degree);
 void summary(polyElement* elem1, polyElement* elem2);
 void diff(polyElement* elem1, polyElement* elem2);
 void mult_coeff(polyElement* elem, int coeff);
-void degree(polyElement* elem, int degree);
-void polydegree(polyElement* elem, polyElement* degree);
 int calc_degree(int value, int deg);
 
 void print(polyElement* poly);
