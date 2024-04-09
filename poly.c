@@ -68,28 +68,51 @@ void mult_coeff(polyElement* elem, int coeff)
     elem->coeff *= coeff;
 }
 
-void degree(polyElement* elem, int degree)
+polyElement* degree(polyElement* elem, int degree)
 {
-    if (elem->next != NULL)
+    polyElement* temp = create(1, 0);
+    for (int i = 0; i < degree; i++) 
     {
-        for (polyElement* temp = elem; temp != NULL; temp = temp->next)
-        {
-            temp->coeff = calc_degree(temp->coeff, degree);
-            temp->degree *= degree;
-        }
+        temp = mult(temp, elem);
     }
-    else
-        elem->degree *= degree;
+    return temp;
 }
 
-void polydegree(polyElement* elem, polyElement* degree)
+polyElement* polydegree(polyElement* elem1, polyElement* elem2)
 {
-    elem->degree = degree->coeff;
+    return degree(elem1, elem2->coeff);
 }
 
 int calc_degree(int value, int deg)
 {
     return pow(value, deg);
+}
+
+void swap(polyElement* a, polyElement* b) 
+{
+    int temp_coeff = a->coeff;
+    int temp_degree = a->degree;
+    a->coeff = b->coeff;
+    a->degree = b->degree;
+    b->coeff = temp_coeff;
+    b->degree = temp_degree;
+}
+
+void polysort(polyElement* poly) 
+{
+    polyElement *current, *index;
+    int temp_coeff, temp_degree;
+
+    if (poly == NULL)
+        return;
+
+    for (current = poly; current->next != NULL; current = current->next) 
+    {
+        for (index = current->next; index != NULL; index = index->next) 
+        {
+            if (current->degree < index->degree) swap(current, index);
+        }
+    }
 }
 
 void print(polyElement* poly)
