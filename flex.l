@@ -10,7 +10,7 @@
 [0-9]+         { yylval = atoi(yytext); return DIGIT; }
 [ \t\r\n]      ;
 [.]            { return EOF; }
-[xX]           { return 'x'; }
+[a-zA-Z]       { yylval = *yytext; return VAR; }
 .              { return *yytext; }
 
 %%

@@ -1,9 +1,10 @@
 #include "poly.h"
 
 
-polyElement* create(int coeff, int degree)
+polyElement* create(char variable, int coeff, int degree)
 {
     polyElement* polynom = (polyElement*)malloc(sizeof(polyElement));
+    polynom->variable = variable;
     polynom->coeff = coeff;
     polynom->degree = degree;
     polynom->next = NULL;
@@ -33,6 +34,7 @@ void summary(polyElement* elem1, polyElement* elem2)
         polyElement* temp = (polyElement*)malloc(sizeof(polyElement));
         temp->coeff = elemSecond->coeff;
         temp->degree = elemSecond->degree;
+        temp->variable = elemSecond->variable;
         temp->next = NULL;
         count->next = temp;
         count = count->next;
@@ -50,13 +52,13 @@ void diff(polyElement* elem1, polyElement* elem2)
 
 polyElement* mult(polyElement* elem1, polyElement* elem2)
 {
-    polyElement* temp = create(0, 1);
+    polyElement* temp = create(elem1->variable, 0, 1);
     for (polyElement* elemFirst = elem1; elemFirst != NULL; elemFirst = elemFirst->next)
     {
         for (polyElement* elemSecond = elem2; elemSecond != NULL; elemSecond = elemSecond->next)
         {
             summary(temp, 
-                    create(elemFirst->coeff * elemSecond->coeff, 
+                    create(elemFirst->variable, elemFirst->coeff * elemSecond->coeff, 
                            elemFirst->degree + elemSecond->degree));
         }
     }
@@ -70,7 +72,7 @@ void mult_coeff(polyElement* elem, int coeff)
 
 polyElement* degree(polyElement* elem, int degree)
 {
-    polyElement* temp = create(1, 0);
+    polyElement* temp = create(elem->variable, 1, 0);
     for (int i = 0; i < degree; i++) 
     {
         temp = mult(temp, elem);
@@ -92,10 +94,13 @@ void swap(polyElement* a, polyElement* b)
 {
     int temp_coeff = a->coeff;
     int temp_degree = a->degree;
+    char temp_variable = a->variable;
     a->coeff = b->coeff;
     a->degree = b->degree;
+    a->variable = b->variable;
     b->coeff = temp_coeff;
     b->degree = temp_degree;
+    b->variable = temp_variable;
 }
 
 void polysort(polyElement* poly) 
@@ -132,20 +137,20 @@ void print(polyElement* poly)
         else if (elem->degree == 1)
         {
             if (elem->coeff > 1 && counter != 0)
-                printf("+%dx", elem->coeff);
+                printf("+%d%c", elem->coeff, elem->variable);
             else if (elem->coeff == 1)
-                printf("x");
+                printf("%c", elem->variable);
             else
-                printf("%dx", elem->coeff);
+                printf("%d%c", elem->coeff, elem->variable);
         }
         else
         {
             if (elem->coeff > 1 && counter != 0)
-                printf("+%dx^%d", elem->coeff, elem->degree);
+                printf("+%d%c^%d", elem->coeff, elem->variable, elem->degree);
             else if (elem->coeff == 1)
-                printf("x^%d", elem->degree);
+                printf("%c^%d", elem->variable, elem->degree);
             else
-                printf("%dx^%d", elem->coeff, elem->degree);
+                printf("%d%c^%d", elem->coeff, elem->variable, elem->degree);
         }
         counter++;
     }

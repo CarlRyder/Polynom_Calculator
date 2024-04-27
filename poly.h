@@ -6,12 +6,13 @@
 #define YYSTYPE uint64_t
 
 typedef struct polyElement {
+    char variable;
     int coeff;
     int degree;
     struct polyElement* next;
 } polyElement;
 
-polyElement* create(int coeff, int degree);
+polyElement* create(char variable, int coeff, int degree);
 
 polyElement* mult(polyElement* elem1, polyElement* elem2);
 polyElement* polydegree(polyElement* elem, polyElement* degree);

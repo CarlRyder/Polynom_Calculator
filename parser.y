@@ -5,6 +5,7 @@ void yyerror(char* str) { fprintf(stderr, "%s\n", str); }
 %}
 
 %token DIGIT
+%token VAR
 
 %%
 expr:   poly { 
@@ -43,27 +44,27 @@ coeff:  coeff '^' deg {
         }
         |
         deg {
-        $$ = (uint64_t)create((int)$1, 0);
+        $$ = (uint64_t)create(' ', (int)$1, 0);
         }
         |
-        deg 'x' {
-        $$ = (uint64_t)create((int)$1, 1);
+        deg VAR {
+        $$ = (uint64_t)create((char)$2, (int)$1, 1);
         }
         |
-        deg 'x' '^' deg {
-        $$ = (uint64_t)create((int)$1, (int)$4);
+        deg VAR '^' deg {
+        $$ = (uint64_t)create((char)$2, (int)$1, (int)$4);
         }
         |
-        deg '*' 'x' {
-        $$ = (uint64_t)create((int)$1, 1);
+        deg '*' VAR {
+        $$ = (uint64_t)create((char)$3, (int)$1, 1);
         }
         |
-        'x' {
-        $$ = (uint64_t)create(1, 1);
+        VAR {
+        $$ = (uint64_t)create((char)$1, 1, 1);
         }
         |
-        'x' '^' deg {
-        $$ = (uint64_t)create(1, (int)$3);
+        VAR '^' deg {
+        $$ = (uint64_t)create((char)$1, 1, (int)$3);
         }
         |
         '(' poly ')' {
