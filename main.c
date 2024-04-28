@@ -1,8 +1,6 @@
 #include "poly.h"
 #include "parser.tab.h"
 
-extern FILE *yyin;
-
 #define DEFAULT_ERROR -1
 
 int main()

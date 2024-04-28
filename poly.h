@@ -5,6 +5,8 @@
 
 #define YYSTYPE uint64_t
 
+extern FILE *yyin;
+
 typedef struct polyElement {
     char variable;
     int coeff;
@@ -24,3 +26,5 @@ int calc_degree(int value, int deg);
 
 void polysort(polyElement* poly);
 void print(polyElement* poly);
+
+void error_msg(char* errorMsg, int flag);
