@@ -2,10 +2,10 @@
 #include <math.h>
 #include <malloc.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 #define YYSTYPE uint64_t
-
-extern FILE *yyin;
 
 typedef struct polyElement {
     char variable;
@@ -27,4 +27,5 @@ int calc_degree(int value, int deg);
 void polysort(polyElement* poly);
 void print(polyElement* poly);
 
-void error_msg(char* errorMsg, int flag);
+void error_msg(const char* errorMsg, int flag);
+void line_counter();

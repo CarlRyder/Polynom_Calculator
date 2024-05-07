@@ -1,6 +1,5 @@
 #include "poly.h"
 
-
 polyElement* create(char variable, int coeff, int degree)
 {
     polyElement* polynom = (polyElement*)malloc(sizeof(polyElement));

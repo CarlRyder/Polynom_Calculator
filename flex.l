@@ -1,5 +1,6 @@
 %{ 
-#include "parser.tab.h" 
+#include "parser.tab.h"
+#include "poly.h"
 %}
 
 %option yylineno
@@ -8,10 +9,13 @@
 %%
 
 [/][/].*       ;
-[ \t\r\n]      ;
+[ \t\r]        ;
+[\n]           { line_counter(); }
 [0-9]+         { yylval = atoi(yytext); return DIGIT; }
+[a-z]          { yylval = *yytext; return VAR; }
+[A-Z]=         { yylval = *yytext; printf("init variable %c\n", yylval); }
+[()*+\-^]      { return *yytext; }
 [.]            { return EOF; }
-[a-zA-Z]       { yylval = *yytext; return VAR; }
-.              { return *yytext; }
+.              { error_msg("incorrect symbol", 1); }
 
 %%

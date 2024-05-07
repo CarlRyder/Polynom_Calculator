@@ -9,7 +9,7 @@ void yyerror(char* str) { fprintf(stderr, "%s\n", str); }
 
 %%
 expr:   poly { 
-        printf("\nExpression:\n");
+        printf("Expression:\n");
         polysort((polyElement*)$$);
         print((polyElement*)$$);
         }
