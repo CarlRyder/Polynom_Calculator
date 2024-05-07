@@ -55,11 +55,13 @@ coeff:  coeff '^' deg {
         }
         |
         vars {
-        $$ = (uint64_t)search_polynom((char)$1);
+        polyElement* temp = (polyElement*)malloc(sizeof(polyElement));
+        temp = copy_polynoms(temp, search_polynom((char)$1));
+        $$ = (uint64_t)temp;
         }
         |
         deg {
-        $$ = (uint64_t)create(' ', (int)$1, 0);
+        $$ = (uint64_t)create(0, (int)$1, 0);
         }
         |
         deg VAR {

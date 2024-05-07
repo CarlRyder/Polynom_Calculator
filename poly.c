@@ -40,6 +40,22 @@ void print_var(char varname)
     print(tempPrint);
 }
 
+polyElement* copy_polynoms(polyElement* dest, polyElement* src)
+{
+    polyElement* tempDest = dest;
+    for (polyElement* tempSrc = src; tempSrc != NULL; tempSrc = tempSrc->next)
+    {
+        tempDest->coeff = tempSrc->coeff;
+        tempDest->degree = tempSrc->degree;
+        tempDest->variable = tempSrc->variable;
+        tempDest->next = tempSrc->next;
+        if (tempDest != NULL)
+            tempDest = (polyElement*)malloc(sizeof(polyElement));
+        tempDest = tempDest->next;
+    }
+    return dest;
+}
+
 polyElement* create(char variable, int coeff, int degree)
 {
     polyElement* polynom = (polyElement*)malloc(sizeof(polyElement));
@@ -50,8 +66,28 @@ polyElement* create(char variable, int coeff, int degree)
     return polynom;
 }
 
+int check_variables(polyElement* elem1, polyElement* elem2)
+{
+    for (polyElement* elemFirst = elem1; elemFirst != NULL; elemFirst = elemFirst->next)
+    {
+        for (polyElement* elemSecond = elem2; elemSecond != NULL; elemSecond = elemSecond->next)
+        {
+            if (elemFirst->variable != elemSecond->variable)
+            {
+                if (elemFirst->variable == 0 || elemSecond->variable == 0)
+                    continue;
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
+
 void summary(polyElement* elem1, polyElement* elem2)
 {
+    if (!check_variables(elem1, elem2))
+        error_msg("operations with different variables are not possible");
+
     polyElement* count = elem1;
     while (count->next != NULL)
         count = count->next;
@@ -72,8 +108,8 @@ void summary(polyElement* elem1, polyElement* elem2)
             continue;
         polyElement* temp = (polyElement*)malloc(sizeof(polyElement));
         temp->coeff = elemSecond->coeff;
-        temp->degree = elemSecond->degree;
         temp->variable = elemSecond->variable;
+        temp->degree = elemSecond->degree;
         temp->next = NULL;
         count->next = temp;
         count = count->next;
