@@ -1,19 +1,31 @@
 %{
 #include <stdio.h>
 #include "poly.h"
-void yyerror(char* str) { fprintf(stderr, "%s\n", str); }
+void yyerror(char* str) { error_msg(str); }
 %}
 
 %token DIGIT
 %token VAR
+%token VARNAME
+%token PRINT
 
 %%
-expr:   poly { 
-        printf("Expression:\n");
-        polysort((polyElement*)$$);
-        print((polyElement*)$$);
+input:  | input expr
+
+expr:   PRINT poly ';' { 
+        printf("Result: ");
+        polysort((polyElement*)$2);
+        print((polyElement*)$2);
         }
-;
+        |
+        PRINT vars ';' {
+        printf("Variable %c: ", (char)$2);
+        print_var((char)$2);
+        }
+        |
+        vars '=' poly ';' {
+        set_polynom((char)$1, (polyElement*)$3);
+        };
 
 poly:   coeff {
         $$ = $1;
@@ -31,8 +43,7 @@ poly:   coeff {
         |
         poly '*' coeff { 
         $$ = (uint64_t)mult((polyElement*)$1, (polyElement*)$3);
-        }
-;
+        };
 
 coeff:  coeff '^' deg {
         $$ = (uint64_t)degree((polyElement*)$1, (int)$3);
@@ -41,6 +52,10 @@ coeff:  coeff '^' deg {
         coeff '^' coeff {
         polydegree((polyElement*)$1, (polyElement*)$3);
         $$ = $1;
+        }
+        |
+        vars {
+        $$ = (uint64_t)search_polynom((char)$1);
         }
         |
         deg {
@@ -69,8 +84,7 @@ coeff:  coeff '^' deg {
         |
         '(' poly ')' {
         $$ = $2;
-        }
-;
+        };
 
 deg:    number {
         $$ = $1;
@@ -78,8 +92,11 @@ deg:    number {
         |
         number '^' deg {
         $$ = calc_degree((int)$1, (int)$3);
-        }
-;
+        };
+
+vars:   VARNAME {
+        $$ = $1;
+        };
 
 number: DIGIT {
         $$ = $1;
@@ -91,7 +108,6 @@ number: DIGIT {
         |
         number DIGIT {
         $$ = $1 * 10 + $2;
-        }
-;
+        };
 
 %%

@@ -1,5 +1,45 @@
 #include "poly.h"
 
+polyVariable polyVariables;
+
+void init_structs()
+{
+    char temp[] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+    for (int i = 0; i < VARCOUNTS; i++)
+        polyVariables.varnames[i] = temp[i];
+}
+
+int search_index(char varname)
+{
+    int index = 0;
+    for (index = 0; index < VARCOUNTS; index++)
+    {
+        if (varname == polyVariables.varnames[index])
+            break;
+    }
+    if (index == VARCOUNTS)
+        error_msg("variable not found");
+    return index;
+}
+
+void set_polynom(char varname, polyElement* polynom)
+{
+    int index = search_index(varname);
+    polyVariables.polynoms[index] = *polynom;
+}
+
+polyElement* search_polynom(char varname)
+{
+    int index = search_index(varname);
+    return &polyVariables.polynoms[index];
+}
+
+void print_var(char varname)
+{
+    polyElement* tempPrint = search_polynom(varname);
+    print(tempPrint);
+}
+
 polyElement* create(char variable, int coeff, int degree)
 {
     polyElement* polynom = (polyElement*)malloc(sizeof(polyElement));

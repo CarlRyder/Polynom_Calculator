@@ -1,7 +1,11 @@
 // test comment
 // the best polynoms in the world
-3x
-+
-5x
-A=
-.
+~ 7x + 3x;
+A = 2x + 4x;
+~ A;
+~ A;
+~ (A + 2x + 12x)^2;
+~ (16x^2+3x+6x)*2x;
+~ 4x+3x;
+B = 4x+3x;
+~ B;

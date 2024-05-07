@@ -4,7 +4,7 @@
 #define DEFAULT_ERROR -1
 
 extern FILE *yyin;
-int lineCount = 0;
+int lineCount = 1;
 
 int main()
 {
@@ -14,7 +14,7 @@ int main()
         printf("[-] File with polynoms doesn't exist\n");
         return DEFAULT_ERROR;
     }
-
+    init_structs();
     yyin = inputFile;
     yyparse();
     fclose(yyin);
@@ -25,12 +25,8 @@ void line_counter()
     lineCount++;
 }
 
-void error_msg(const char* errorMsg, int flag)
+void error_msg(const char* errorMsg)
 {
-    if (flag)
-        printf("[-] Error in line %d: %s\n", lineCount + 1, errorMsg);
-    else
-        printf("[-] Error in line %d: %s\n", lineCount, errorMsg);
-    system("pause");
+    printf("[-] Error in line %d: %s\n", lineCount, errorMsg);
     exit(DEFAULT_ERROR);
 }
