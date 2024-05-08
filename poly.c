@@ -4,9 +4,11 @@ polyVariable polyVariables;
 
 void init_structs()
 {
-    char temp[] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+    char tempNames[] = {'A','B','C','D','E','F','G','H','I','J','K','L','M',
+                        'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
     for (int i = 0; i < VARCOUNTS; i++)
-        polyVariables.varnames[i] = temp[i];
+        polyVariables.varnames[i] = tempNames[i];
+    memset(polyVariables.statuses, 0, sizeof(char) * VARCOUNTS);
 }
 
 int search_index(char varname)
@@ -25,12 +27,15 @@ int search_index(char varname)
 void set_polynom(char varname, polyElement* polynom)
 {
     int index = search_index(varname);
+    polyVariables.statuses[index] = 1;
     polyVariables.polynoms[index] = *polynom;
 }
 
 polyElement* search_polynom(char varname)
 {
     int index = search_index(varname);
+    if (polyVariables.statuses[index] == 0)
+        error_msg("variable does not exists");
     return &polyVariables.polynoms[index];
 }
 
@@ -118,6 +123,9 @@ void summary(polyElement* elem1, polyElement* elem2)
 
 void diff(polyElement* elem1, polyElement* elem2)
 {
+    if (!check_variables(elem1, elem2))
+        error_msg("operations with different variables are not possible");
+    
     for (polyElement* temp = elem2; temp != NULL; temp = temp->next)
     {
         temp->coeff *= -1;
@@ -127,6 +135,9 @@ void diff(polyElement* elem1, polyElement* elem2)
 
 polyElement* mult(polyElement* elem1, polyElement* elem2)
 {
+    if (!check_variables(elem1, elem2))
+        error_msg("operations with different variables are not possible");
+    
     polyElement* temp = create(elem1->variable, 0, 1);
     for (polyElement* elemFirst = elem1; elemFirst != NULL; elemFirst = elemFirst->next)
     {

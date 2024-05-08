@@ -18,6 +18,7 @@ typedef struct polyElement {
 
 typedef struct polyVariable {
     char varnames[VARCOUNTS];
+    char statuses[VARCOUNTS];
     polyElement polynoms[VARCOUNTS];
 } polyVariable;
 

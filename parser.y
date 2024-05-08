@@ -24,6 +24,7 @@ expr:   PRINT poly ';' {
         }
         |
         vars '=' poly ';' {
+        polysort((polyElement*)$3);
         set_polynom((char)$1, (polyElement*)$3);
         };
 
