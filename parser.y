@@ -51,8 +51,7 @@ coeff:  coeff '^' deg {
         }
         |
         coeff '^' coeff {
-        polydegree((polyElement*)$1, (polyElement*)$3);
-        $$ = $1;
+        $$ = (uint64_t)polydegree((polyElement*)$1, (polyElement*)$3);
         }
         |
         vars {

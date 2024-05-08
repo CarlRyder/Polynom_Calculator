@@ -215,7 +215,7 @@ void print(polyElement* poly)
             continue;
         if (elem->degree == 0)
         {   
-            if (elem->coeff > 1 && counter != 0)
+            if (elem->coeff >= 1 && counter != 0)
                 printf("+%d", elem->coeff);
             else
                 printf("%d", elem->coeff);
