@@ -6,6 +6,9 @@ PARSER_FILE = parser.y
 FLEX_FILE = flex.l
 RESULT_FILES = lex.yy.c parser.tab.h parser.tab.c logs.txt ./build/calc
 
+log:
+	$(YACC) -d $(PARSER_FILE) -Wcounterexamples 2> logs.txt
+
 clean:
 	rm -f $(RESULT_FILES)
 
