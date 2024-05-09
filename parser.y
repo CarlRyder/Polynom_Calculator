@@ -28,29 +28,30 @@ expr:   PRINT poly ';' {
         set_polynom((char)$1, (polyElement*)$3);
         };
 
-poly:   coeff {
+poly:   coeff_x {
         $$ = $1;
         }
         |
-        poly '+' coeff { 
+        poly '+' coeff_x { 
         summary((polyElement*)$1, (polyElement*)$3);
         $$ = $1;
         } 
         |
-        poly '-' coeff { 
+        poly '-' coeff_x { 
         diff((polyElement*)$1, (polyElement*)$3);
         $$ = $1;
         }
         |
-        poly '*' coeff { 
+        poly '*' coeff_x { 
         $$ = (uint64_t)mult((polyElement*)$1, (polyElement*)$3);
         };
 
-coeff:  coeff '^' deg {
-        $$ = (uint64_t)degree((polyElement*)$1, (int)$3);
+coeff_x:
+        coeff {
+        $$ = $1;
         }
         |
-        coeff '^' coeff {
+        coeff_x '^' coeff_x {
         $$ = (uint64_t)polydegree((polyElement*)$1, (polyElement*)$3);
         }
         |
@@ -60,20 +61,20 @@ coeff:  coeff '^' deg {
         $$ = (uint64_t)temp;
         }
         |
-        deg {
+        '(' poly ')' {
+        $$ = $2;
+        };
+
+coeff:  number {
         $$ = (uint64_t)create(0, (int)$1, 0);
         }
         |
-        deg VAR {
+        number VAR {
         $$ = (uint64_t)create((char)$2, (int)$1, 1);
         }
         |
-        deg VAR '^' deg {
+        number VAR '^' deg {
         $$ = (uint64_t)create((char)$2, (int)$1, (int)$4);
-        }
-        |
-        deg '*' VAR {
-        $$ = (uint64_t)create((char)$3, (int)$1, 1);
         }
         |
         VAR {
@@ -82,10 +83,6 @@ coeff:  coeff '^' deg {
         |
         VAR '^' deg {
         $$ = (uint64_t)create((char)$1, 1, (int)$3);
-        }
-        |
-        '(' poly ')' {
-        $$ = $2;
         };
 
 deg:    number {
