@@ -37,6 +37,8 @@ void mult_coeff(polyElement* elem, int coeff);
 int calc_degree(int value, int deg);
 polyElement* copy_polynoms(polyElement* dest, polyElement* src);
 
+void debug_print(polyElement* a);
+void clean(polyElement* poly);
 void polysort(polyElement* poly);
 void print(polyElement* poly);
 void print_var(char varname);

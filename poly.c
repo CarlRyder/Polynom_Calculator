@@ -119,6 +119,8 @@ void summary(polyElement* elem1, polyElement* elem2)
         count->next = temp;
         count = count->next;
     }
+
+    clean(elem1);
 }
 
 void diff(polyElement* elem1, polyElement* elem2)
@@ -148,6 +150,7 @@ polyElement* mult(polyElement* elem1, polyElement* elem2)
                            elemFirst->degree + elemSecond->degree));
         }
     }
+    clean(temp);
     return temp;
 }
 
@@ -163,6 +166,7 @@ polyElement* degree(polyElement* elem, int degree)
     {
         temp = mult(temp, elem);
     }
+    clean(temp);
     return temp;
 }
 
@@ -174,6 +178,44 @@ polyElement* polydegree(polyElement* elem1, polyElement* elem2)
 int calc_degree(int value, int deg)
 {
     return pow(value, deg);
+}
+
+void debug_print(polyElement* a)
+{
+    printf("coeff: %d, degree: %d, variable: %c, next: %p\n",
+    a->coeff, a->degree, a->variable, a->next);
+}
+
+void clean(polyElement* poly)
+{
+    polyElement *current;
+    for (current = poly; current != NULL; current = current->next) 
+    {
+        if (current->next != NULL)
+        {
+            if (current->next->coeff == 0)
+            {
+                polyElement *temp = current->next;
+                polyElement *result = NULL;
+                while (temp != NULL)
+                {
+                    if (temp->coeff == 0)
+                    {
+                        polyElement *ptr = temp->next;
+                        free(temp);
+                        temp = ptr;
+                    }
+                    else
+                    {
+                        result = temp;
+                        break;
+                    }
+                }
+                current->next = result;
+                break;
+            }
+        }
+    }
 }
 
 void swap(polyElement* a, polyElement* b) 
@@ -201,7 +243,7 @@ void polysort(polyElement* poly)
     {
         for (index = current->next; index != NULL; index = index->next) 
         {
-            if (current->degree < index->degree) swap(current, index);
+            if (current->degree < index->degree && index->coeff != 0) swap(current, index);
         }
     }
 }
@@ -212,8 +254,8 @@ void print(polyElement* poly)
     for (polyElement* elem = poly; elem != NULL; elem = elem->next)
     {
         if (elem->coeff == 0)
-            continue;
-        if (elem->degree == 0)
+            printf("%d", elem->coeff);
+        else if (elem->degree == 0)
         {   
             if (elem->coeff >= 1 && counter != 0)
                 printf("+%d", elem->coeff);
