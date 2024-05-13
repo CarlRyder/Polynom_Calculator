@@ -14,7 +14,7 @@ input:  | input expr
 
 expr:   PRINT poly ';' { 
         printf("Result: ");
-        polysort((polyElement*)$2);
+        /*polysort((polyElement*)$2);*/
         print((polyElement*)$2);
         }
         |
@@ -24,7 +24,7 @@ expr:   PRINT poly ';' {
         }
         |
         vars '=' poly ';' {
-        polysort((polyElement*)$3);
+        /*polysort((polyElement*)$3);*/
         set_polynom((char)$1, (polyElement*)$3);
         };
 

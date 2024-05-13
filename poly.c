@@ -119,7 +119,7 @@ void summary(polyElement* elem1, polyElement* elem2)
         count->next = temp;
         count = count->next;
     }
-
+    polysort(elem1);
     clean(elem1);
 }
 
@@ -150,6 +150,7 @@ polyElement* mult(polyElement* elem1, polyElement* elem2)
                            elemFirst->degree + elemSecond->degree));
         }
     }
+    polysort(temp);
     clean(temp);
     return temp;
 }
@@ -166,6 +167,7 @@ polyElement* degree(polyElement* elem, int degree)
     {
         temp = mult(temp, elem);
     }
+    polysort(temp);
     clean(temp);
     return temp;
 }
@@ -243,7 +245,7 @@ void polysort(polyElement* poly)
     {
         for (index = current->next; index != NULL; index = index->next) 
         {
-            if (current->degree < index->degree && index->coeff != 0) swap(current, index);
+            if (current->degree < index->degree || current->coeff == 0) swap(current, index);
         }
     }
 }
@@ -254,7 +256,7 @@ void print(polyElement* poly)
     for (polyElement* elem = poly; elem != NULL; elem = elem->next)
     {
         if (elem->coeff == 0)
-            printf("%d", elem->coeff);
+            printf("'%d'", elem->coeff);
         else if (elem->degree == 0)
         {   
             if (elem->coeff >= 1 && counter != 0)
