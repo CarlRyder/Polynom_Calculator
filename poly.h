@@ -47,3 +47,4 @@ polyElement* operation(char sign, polyElement* elem1, polyElement* elem2);
 
 void error_msg(const char* errorMsg);
 void line_counter();
+int get_line();

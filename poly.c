@@ -172,6 +172,8 @@ void mult_coeff(polyElement* elem, int coeff)
 
 polyElement* degree(polyElement* elem, int degree)
 {
+    if (degree < 0)
+        error_msg("negative degree");
     if (elem->coeff == 0 && degree == 0)
         error_msg("expression is an indeterminacy");
     polyElement* temp = create(elem->variable, 1, 0);
@@ -184,13 +186,28 @@ polyElement* degree(polyElement* elem, int degree)
     return temp;
 }
 
+int check_monomial(polyElement* poly)
+{
+    polyElement *current;
+    for (current = poly; current != NULL; current = current->next) 
+    {
+        if (current->variable != 0)
+            return 0;
+    }
+    return 1;
+}
+
 polyElement* polydegree(polyElement* elem1, polyElement* elem2)
 {
+    if (!check_monomial(elem2))
+        error_msg("polynomial in degree");
     return degree(elem1, elem2->coeff);
 }
 
 int calc_degree(int value, int deg)
 {
+    if (deg < 0)
+        error_msg("negative degree");
     return pow(value, deg);
 }
 

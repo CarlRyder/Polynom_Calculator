@@ -14,12 +14,12 @@ void yyerror(char* str) { error_msg(str); }
 input:  | input expr
 
 expr:   PRINT poly ';' { 
-        printf("Result: ");
+        printf("[%d] Result: ", get_line());
         print((polyElement*)$2);
         }
         |
         PRINT vars ';' {
-        printf("Variable %c: ", (char)$2);
+        printf("[%d] Variable %c: ", get_line(), (char)$2);
         print_var((char)$2);
         }
         |

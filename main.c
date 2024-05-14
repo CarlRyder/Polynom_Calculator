@@ -25,6 +25,11 @@ void line_counter()
     lineCount++;
 }
 
+int get_line()
+{
+    return lineCount;
+}
+
 void error_msg(const char* errorMsg)
 {
     printf("[-] Error in line %d: %s\n", lineCount, errorMsg);
