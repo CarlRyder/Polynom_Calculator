@@ -20,15 +20,9 @@ int main()
     fclose(yyin);
 }
 
-void line_counter()
-{
-    lineCount++;
-}
-
-int get_line()
-{
-    return lineCount;
-}
+void line_inc() { lineCount++; }
+void line_dec() { lineCount--; }
+int get_line() { return lineCount; }
 
 void error_msg(const char* errorMsg)
 {

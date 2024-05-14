@@ -25,6 +25,21 @@ expr:   PRINT poly ';' {
         |
         vars '=' poly ';' {
         set_polynom((char)$1, (polyElement*)$3);
+        }
+        |
+        PRINT poly { 
+        line_dec();
+        error_msg("ending character ';' is missing");
+        }
+        |
+        PRINT vars {
+        line_dec();
+        error_msg("ending character ';' is missing");
+        }
+        |
+        vars '=' poly {
+        line_dec();
+        error_msg("ending character ';' is missing");
         };
 
 poly:   coeff_x {

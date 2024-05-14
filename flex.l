@@ -10,7 +10,7 @@
 
 [/][/].*       ;
 [ \t\r]        ;
-[\n]           { line_counter(); }
+[\n]           { line_inc(); }
 [0-9]+         { yylval = atoi(yytext); return DIGIT; }
 [a-z]          { yylval = *yytext; return VAR; }
 [A-Z]          { yylval = *yytext; return VARNAME; }
