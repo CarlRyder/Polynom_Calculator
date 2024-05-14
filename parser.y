@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "poly.h"
 void yyerror(char* str) { error_msg(str); }
+int yylex();
 %}
 
 %token DIGIT
@@ -14,12 +15,14 @@ void yyerror(char* str) { error_msg(str); }
 input:  | input expr
 
 expr:   PRINT poly ';' { 
-        printf("[%d] Result: ", get_line());
+        print_line("Result: ");
         print((polyElement*)$2);
         }
         |
         PRINT vars ';' {
-        printf("[%d] Variable %c: ", get_line(), (char)$2);
+        char temp[16];
+        sprintf(temp, "Variable %c: ", (char)$2);
+        print_line(temp);
         print_var((char)$2);
         }
         |
