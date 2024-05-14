@@ -88,7 +88,7 @@ int check_variables(polyElement* elem1, polyElement* elem2)
     return 1;
 }
 
-void summary(polyElement* elem1, polyElement* elem2)
+polyElement* summary(polyElement* elem1, polyElement* elem2)
 {
     if (!check_variables(elem1, elem2))
         error_msg("operations with different variables are not possible");
@@ -121,9 +121,10 @@ void summary(polyElement* elem1, polyElement* elem2)
     }
     polysort(elem1);
     clean(elem1);
+    return elem1;
 }
 
-void diff(polyElement* elem1, polyElement* elem2)
+polyElement* diff(polyElement* elem1, polyElement* elem2)
 {
     if (!check_variables(elem1, elem2))
         error_msg("operations with different variables are not possible");
@@ -133,6 +134,7 @@ void diff(polyElement* elem1, polyElement* elem2)
         temp->coeff *= -1;
     }
     summary(elem1, elem2);
+    return elem1;
 }
 
 polyElement* mult(polyElement* elem1, polyElement* elem2)
@@ -153,6 +155,14 @@ polyElement* mult(polyElement* elem1, polyElement* elem2)
     polysort(temp);
     clean(temp);
     return temp;
+}
+
+polyElement* operation(char sign, polyElement* elem1, polyElement* elem2)
+{
+    if (sign == '+')
+        return summary(elem1, elem2);
+    else if (sign == '-')
+        return diff(elem1, elem2);
 }
 
 void mult_coeff(polyElement* elem, int coeff)
