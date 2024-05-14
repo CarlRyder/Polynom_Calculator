@@ -172,6 +172,8 @@ void mult_coeff(polyElement* elem, int coeff)
 
 polyElement* degree(polyElement* elem, int degree)
 {
+    if (elem->coeff == 0 && degree == 0)
+        error_msg("expression is an indeterminacy");
     polyElement* temp = create(elem->variable, 1, 0);
     for (int i = 0; i < degree; i++) 
     {
