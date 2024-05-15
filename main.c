@@ -7,12 +7,17 @@
 extern FILE *yyin;
 int lineCount = 1;
 
-int main()
+int main(int argc, char* argv[])
 {
-    FILE* inputFile = fopen("poly.txt", "r");
+    if (argc != 2)
+    {
+        printf("[-] argument with the name of the input file is missing\n");
+        return DEFAULT_ERROR;
+    }
+    FILE* inputFile = fopen(argv[1], "r");
     if (inputFile == NULL)
     {
-        printf("[-] File with polynoms doesn't exist\n");
+        printf("[-] file with polynoms doesn't exist\n");
         return DEFAULT_ERROR;
     }
     init_structs();
