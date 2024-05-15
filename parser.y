@@ -6,7 +6,6 @@ int yylex();
 %}
 
 %token DIGIT
-%token SIGN
 %token VAR
 %token VARNAME
 %token PRINT
@@ -49,16 +48,16 @@ poly:   coeff_x {
         $$ = $1;
         }
         |
-        poly SIGN coeff_x {
-        $$ = (uint64_t)operation((char)$2, (polyElement*)$1, (polyElement*)$3);
+        '-' coeff_x {
+        $$ = (uint64_t)unary((polyElement*)$2);
         }
         |
-        poly SIGN SIGN coeff_x {
-        error_msg("two operation signs in a line");
+        poly '+' coeff_x {
+        $$ = (uint64_t)summary((polyElement*)$1, (polyElement*)$3);
         }
         |
-        poly SIGN SIGN SIGN coeff_x {
-        error_msg("three operation signs in a line");
+        poly '-' coeff_x {
+        $$ = (uint64_t)diff((polyElement*)$1, (polyElement*)$3);
         };
 
 coeff_x:
@@ -72,6 +71,10 @@ coeff_x:
         |
         coeff_x '*' coeff_x { 
         $$ = (uint64_t)mult((polyElement*)$1, (polyElement*)$3);
+        }
+        |
+        coeff_x coeff_x %prec '*' { 
+        $$ = (uint64_t)mult((polyElement*)$1, (polyElement*)$2);
         }
         |
         vars {
@@ -118,10 +121,6 @@ vars:   VARNAME {
 
 number: DIGIT {
         $$ = $1;
-        }
-        |
-        '-' DIGIT {
-        $$ = $2 * (-1);
         }
         |
         number DIGIT {

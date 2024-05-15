@@ -14,8 +14,7 @@
 [0-9]+         { yylval = atoi(yytext); return DIGIT; }
 [a-z]          { yylval = *yytext; return VAR; }
 [A-Z]          { yylval = *yytext; return VARNAME; }
-[+\-]          { yylval = *yytext; return SIGN; }
-[=()*^;]       { return *yytext; }
+[=()*^;+\-]    { return *yytext; }
 [~]            { return PRINT; }
 .              { error_msg("incorrect symbol"); }
 

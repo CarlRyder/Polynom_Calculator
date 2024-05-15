@@ -45,6 +45,12 @@ void print_var(char varname)
     print(tempPrint);
 }
 
+polyElement* unary(polyElement* elem)
+{
+    elem->coeff *= (-1);
+    return elem;
+}
+
 polyElement* copy_polynoms(polyElement* dest, polyElement* src)
 {
     polyElement* tempDest = dest;
@@ -159,14 +165,6 @@ polyElement* mult(polyElement* elem1, polyElement* elem2)
     polysort(temp);
     clean(temp);
     return temp;
-}
-
-polyElement* operation(char sign, polyElement* elem1, polyElement* elem2)
-{
-    if (sign == '+')
-        return summary(elem1, elem2);
-    else if (sign == '-')
-        return diff(elem1, elem2);
 }
 
 void mult_coeff(polyElement* elem, int coeff)
