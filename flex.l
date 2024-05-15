@@ -16,10 +16,7 @@
 [A-Z]          { yylval = *yytext; return VARNAME; }
 [+\-]          { yylval = *yytext; return SIGN; }
 [=()*^;]       { return *yytext; }
-[~]            { char nextChar = input();
-                 if (nextChar != ' ') error_msg("output command was used incorrectly");
-                 unput(nextChar);
-                 return PRINT; }
+[~]            { return PRINT; }
 .              { error_msg("incorrect symbol"); }
 
 %%

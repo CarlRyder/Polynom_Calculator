@@ -49,7 +49,7 @@ poly:   coeff_x {
         $$ = $1;
         }
         |
-        poly SIGN coeff_x { 
+        poly SIGN coeff_x {
         $$ = (uint64_t)operation((char)$2, (polyElement*)$1, (polyElement*)$3);
         }
         |

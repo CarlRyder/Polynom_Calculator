@@ -54,9 +54,9 @@ polyElement* copy_polynoms(polyElement* dest, polyElement* src)
         tempDest->degree = tempSrc->degree;
         tempDest->variable = tempSrc->variable;
         tempDest->next = tempSrc->next;
+        tempDest = tempDest->next;
         if (tempDest != NULL)
             tempDest = (polyElement*)malloc(sizeof(polyElement));
-        tempDest = tempDest->next;
     }
     return dest;
 }
@@ -134,6 +134,10 @@ polyElement* diff(polyElement* elem1, polyElement* elem2)
         temp->coeff *= -1;
     }
     summary(elem1, elem2);
+    for (polyElement* temp = elem2; temp != NULL; temp = temp->next)
+    {
+        temp->coeff *= -1;
+    }
     return elem1;
 }
 
