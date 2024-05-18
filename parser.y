@@ -77,26 +77,26 @@ coeff_x:
         $$ = (uint64_t)mult((polyElement*)$1, (polyElement*)$2);
         }
         |
+        '(' poly ')' {
+        $$ = $2;
+        }
+        |
         vars {
         polyElement* temp = (polyElement*)malloc(sizeof(polyElement));
         temp = copy_polynoms(temp, search_polynom((char)$1));
         $$ = (uint64_t)temp;
-        }
-        |
-        '(' poly ')' {
-        $$ = $2;
         };
 
 coeff:  number {
-        $$ = (uint64_t)create(0, (int)$1, 0);
+        $$ = (uint64_t)create(0, (long long)$1, 0);
         }
         |
         number VAR {
-        $$ = (uint64_t)create((char)$2, (int)$1, 1);
+        $$ = (uint64_t)create((char)$2, (long long)$1, 1);
         }
         |
         number VAR '^' deg {
-        $$ = (uint64_t)create((char)$2, (int)$1, (int)$4);
+        $$ = (uint64_t)create((char)$2, (long long)$1, (long long)$4);
         }
         |
         VAR {
@@ -104,7 +104,7 @@ coeff:  number {
         }
         |
         VAR '^' deg {
-        $$ = (uint64_t)create((char)$1, 1, (int)$3);
+        $$ = (uint64_t)create((char)$1, 1, (long long)$3);
         };
 
 deg:    number {
@@ -112,7 +112,7 @@ deg:    number {
         }
         |
         number '^' deg {
-        $$ = calc_degree((int)$1, (int)$3);
+        $$ = calc_degree((long long)$1, (long long)$3);
         };
 
 vars:   VARNAME {

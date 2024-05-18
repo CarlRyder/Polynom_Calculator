@@ -67,7 +67,7 @@ polyElement* copy_polynoms(polyElement* dest, polyElement* src)
     return dest;
 }
 
-polyElement* create(char variable, int coeff, int degree)
+polyElement* create(char variable, long long coeff, long long degree)
 {
     polyElement* polynom = (polyElement*)malloc(sizeof(polyElement));
     polynom->variable = variable;
@@ -167,19 +167,19 @@ polyElement* mult(polyElement* elem1, polyElement* elem2)
     return temp;
 }
 
-void mult_coeff(polyElement* elem, int coeff)
+void mult_coeff(polyElement* elem, long long coeff)
 {
     elem->coeff *= coeff;
 }
 
-polyElement* degree(polyElement* elem, int degree)
+polyElement* degree(polyElement* elem, long long degree)
 {
     if (degree < 0)
         error_msg("negative degree");
     if (elem->coeff == 0 && degree == 0)
         error_msg("expression is an indeterminacy");
     polyElement* temp = create(elem->variable, 1, 0);
-    for (int i = 0; i < degree; i++) 
+    for (long long i = 0; i < degree; i++) 
     {
         temp = mult(temp, elem);
     }
@@ -206,7 +206,7 @@ polyElement* polydegree(polyElement* elem1, polyElement* elem2)
     return degree(elem1, elem2->coeff);
 }
 
-int calc_degree(int value, int deg)
+int calc_degree(long long value, long long deg)
 {
     if (deg < 0)
         error_msg("negative degree");
@@ -215,7 +215,7 @@ int calc_degree(int value, int deg)
 
 void debug_print(polyElement* a)
 {
-    printf("coeff: %d, degree: %d, variable: %c, next: %p\n",
+    printf("coeff: %lld, degree: %lld, variable: %c, next: %p\n",
     a->coeff, a->degree, a->variable, a->next);
 }
 
@@ -287,31 +287,31 @@ void print(polyElement* poly)
     for (polyElement* elem = poly; elem != NULL; elem = elem->next)
     {
         if (elem->coeff == 0)
-            printf("'%d'", elem->coeff);
+            printf("'%lld'", elem->coeff);
         else if (elem->degree == 0)
         {   
             if (elem->coeff >= 1 && counter != 0)
-                printf("+%d", elem->coeff);
+                printf("+%lld", elem->coeff);
             else
-                printf("%d", elem->coeff);
+                printf("%lld", elem->coeff);
         }
         else if (elem->degree == 1)
         {
             if (elem->coeff > 1 && counter != 0)
-                printf("+%d%c", elem->coeff, elem->variable);
+                printf("+%lld%c", elem->coeff, elem->variable);
             else if (elem->coeff == 1)
-                printf("%c", elem->variable);
+                printf("+%c", elem->variable);
             else
-                printf("%d%c", elem->coeff, elem->variable);
+                printf("%lld%c", elem->coeff, elem->variable);
         }
         else
         {
             if (elem->coeff > 1 && counter != 0)
-                printf("+%d%c^%d", elem->coeff, elem->variable, elem->degree);
+                printf("+%lld%c^%lld", elem->coeff, elem->variable, elem->degree);
             else if (elem->coeff == 1)
-                printf("%c^%d", elem->variable, elem->degree);
+                printf("+%c^%lld", elem->variable, elem->degree);
             else
-                printf("%d%c^%d", elem->coeff, elem->variable, elem->degree);
+                printf("%lld%c^%lld", elem->coeff, elem->variable, elem->degree);
         }
         counter++;
     }
