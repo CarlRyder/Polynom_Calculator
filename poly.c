@@ -292,7 +292,7 @@ void print(polyElement* poly)
     for (polyElement* elem = poly; elem != NULL; elem = elem->next)
     {
         if (elem->coeff == 0)
-            printf("'%lld'", elem->coeff);
+            printf("%lld", elem->coeff);
         else if (elem->degree == 0)
         {   
             if (elem->coeff >= 1 && counter != 0)
