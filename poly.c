@@ -47,7 +47,10 @@ void print_var(char varname)
 
 polyElement* unary(polyElement* elem)
 {
-    elem->coeff *= (-1);
+    for (polyElement* temp = elem; temp != NULL; temp = temp->next)
+    {
+        temp->coeff *= (-1);
+    }
     return elem;
 }
 
@@ -301,6 +304,8 @@ void print(polyElement* poly)
         {
             if (elem->coeff > 1 && counter != 0)
                 printf("+%lld%c", elem->coeff, elem->variable);
+            else if (elem->coeff == 1 && counter == 0)
+                printf("%c", elem->variable);
             else if (elem->coeff == 1)
                 printf("+%c", elem->variable);
             else if (elem->coeff == -1)
@@ -312,6 +317,8 @@ void print(polyElement* poly)
         {
             if (elem->coeff > 1 && counter != 0)
                 printf("+%lld%c^%lld", elem->coeff, elem->variable, elem->degree);
+            else if (elem->coeff == 1 && counter == 0)
+                printf("%c^%lld", elem->variable, elem->degree);
             else if (elem->coeff == 1)
                 printf("+%c^%lld", elem->variable, elem->degree);
             else if (elem->coeff == -1)
