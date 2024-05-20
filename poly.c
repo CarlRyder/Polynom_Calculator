@@ -151,7 +151,9 @@ polyElement* mult(polyElement* elem1, polyElement* elem2)
 {
     if (!check_variables(elem1, elem2))
         error_msg("operations with different variables are not possible");
-    
+    if (elem1->variable == 0 && elem2->variable != 0)
+        elem1->variable = elem2->variable;
+
     polyElement* temp = create(elem1->variable, 0, 1);
     for (polyElement* elemFirst = elem1; elemFirst != NULL; elemFirst = elemFirst->next)
     {
@@ -301,6 +303,8 @@ void print(polyElement* poly)
                 printf("+%lld%c", elem->coeff, elem->variable);
             else if (elem->coeff == 1)
                 printf("+%c", elem->variable);
+            else if (elem->coeff == -1)
+                printf("-%c", elem->variable);
             else
                 printf("%lld%c", elem->coeff, elem->variable);
         }
@@ -310,6 +314,8 @@ void print(polyElement* poly)
                 printf("+%lld%c^%lld", elem->coeff, elem->variable, elem->degree);
             else if (elem->coeff == 1)
                 printf("+%c^%lld", elem->variable, elem->degree);
+            else if (elem->coeff == -1)
+                printf("-%c^%lld", elem->variable, elem->degree);
             else
                 printf("%lld%c^%lld", elem->coeff, elem->variable, elem->degree);
         }
