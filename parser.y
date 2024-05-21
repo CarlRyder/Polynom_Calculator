@@ -52,6 +52,10 @@ poly:   coeff_x {
         $$ = (uint64_t)unary((polyElement*)$2);
         }
         |
+        '-' '-' coeff_x {
+        error_msg("two unary cons in a row");
+        }
+        |
         poly '+' coeff_x {
         $$ = (uint64_t)summary((polyElement*)$1, (polyElement*)$3);
         }

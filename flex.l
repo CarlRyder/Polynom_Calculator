@@ -3,7 +3,6 @@
 #include "poly.h"
 %}
 
-%option yylineno
 %option noyywrap
 
 %%
