@@ -1,9 +1,11 @@
 %{
 #include <stdio.h>
 #include "poly.h"
-void yyerror(char* str) { error_msg(str); }
+void yyerror(const char* str) { error_msg(str); }
 int yylex();
 %}
+
+%define parse.error detailed
 
 %token DIGIT
 %token VAR
