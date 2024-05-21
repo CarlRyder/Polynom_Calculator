@@ -10,4 +10,4 @@
 ```make all```
 
 3. Запуск калькулятора полиномов
-```./build/calc```
+```./build/calc file_name.txt```
