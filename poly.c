@@ -154,7 +154,8 @@ polyElement* mult(polyElement* elem1, polyElement* elem2)
 {
     if (!check_variables(elem1, elem2))
         error_msg("operations with different variables are not possible");
-    if (elem1->variable == 0 && elem2->variable != 0)
+    if ((elem1->variable == 0 && elem2->variable != 0) || 
+        (elem2->variable == 0 && elem1->variable != 0))
         elem1->variable = elem2->variable;
 
     polyElement* temp = create(elem1->variable, 0, 1);
@@ -162,8 +163,13 @@ polyElement* mult(polyElement* elem1, polyElement* elem2)
     {
         for (polyElement* elemSecond = elem2; elemSecond != NULL; elemSecond = elemSecond->next)
         {
+            char vartemp = elemFirst->variable;
+            if (elemFirst->variable == 0 && elemSecond->variable != 0)
+                vartemp = elemSecond->variable;
+            else if (elemSecond->variable == 0 && elemFirst->variable != 0)
+                vartemp = elemFirst->variable;
             summary(temp, 
-                    create(elemFirst->variable, elemFirst->coeff * elemSecond->coeff, 
+                    create(vartemp, elemFirst->coeff * elemSecond->coeff, 
                            elemFirst->degree + elemSecond->degree));
         }
     }
