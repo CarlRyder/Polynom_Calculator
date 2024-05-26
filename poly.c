@@ -211,7 +211,7 @@ polyElement* polydegree(polyElement* elem1, polyElement* elem2)
     return degree(elem1, elem2->coeff);
 }
 
-int calc_degree(long long value, long long deg)
+long long calc_degree(long long value, long long deg)
 {
     if (deg < 0)
         error_msg("negative degree");

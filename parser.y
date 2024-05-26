@@ -117,6 +117,12 @@ deg:    number {
         $$ = $1;
         }
         |
+        vars {
+        polyElement* temp = search_polynom((char)$1);
+        if (!check_monomial(temp)) error_msg("polynomial in degree");
+        $$ = (int)temp->coeff;
+        }
+        |
         number '^' deg {
         $$ = calc_degree((long long)$1, (long long)$3);
         };
