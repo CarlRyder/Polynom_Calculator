@@ -97,34 +97,8 @@ coeff:  number {
         $$ = (uint64_t)create(0, (long long)$1, 0);
         }
         |
-        number VAR {
-        $$ = (uint64_t)create((char)$2, (long long)$1, 1);
-        }
-        |
-        number VAR '^' deg {
-        $$ = (uint64_t)create((char)$2, (long long)$1, (long long)$4);
-        }
-        |
         VAR {
         $$ = (uint64_t)create((char)$1, 1, 1);
-        }
-        |
-        VAR '^' deg {
-        $$ = (uint64_t)create((char)$1, 1, (long long)$3);
-        };
-
-deg:    number {
-        $$ = $1;
-        }
-        |
-        vars {
-        polyElement* temp = search_polynom((char)$1);
-        if (!check_monomial(temp)) error_msg("polynomial in degree");
-        $$ = (int)temp->coeff;
-        }
-        |
-        number '^' deg {
-        $$ = calc_degree((long long)$1, (long long)$3);
         };
 
 vars:   VARNAME {
